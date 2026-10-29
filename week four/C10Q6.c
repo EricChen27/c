@@ -21,60 +21,7 @@ bool is_full(void)
 {
     return top == STACK_SIZE;
 }
-#include <stdio.h>
 
-int main(void)
-{
-    int stack[100], top = 0, a, b;
-    char ch;
-
-    printf("Enter an RPN expression: ");
-
-    while (scanf(" %c", &ch) == 1) {
-
-        if (ch >= '0' && ch <= '9') {
-            if (top == 100) {
-                printf("Expression is too complex\n");
-                return 1;
-            }
-            stack[top++] = ch - '0';
-        }
-        else if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
-            if (top < 2) {
-                printf("Not enough operands in expression\n");
-                return 1;
-            }
-
-            b = stack[--top];
-            a = stack[--top];
-
-            switch (ch) {
-                case '+': stack[top++] = a + b; break;
-                case '-': stack[top++] = a - b; break;
-                case '*': stack[top++] = a * b; break;
-                case '/':
-                    if (b == 0) return 1;
-                    stack[top++] = a / b;
-                    break;
-            }
-        }
-        else if (ch == '=') {
-            if (top == 0) {
-                printf("Not enough operands in expression\n");
-                return 1;
-            }
-
-            printf("Value of expression: %d\n", stack[top - 1]);
-            top = 0;
-            printf("Enter an RPN expression: ");
-        }
-        else {
-            break;
-        }
-    }
-
-    return 0;
-}
 void push(int value)
 {
     if (is_full()) {
